@@ -5,6 +5,8 @@ const det = document.querySelector('.details');
 const time = document.querySelector('img.time');
 const icon = document.querySelector('.icon img');
 
+const forcast = new Forcast();
+
 const updateUI = (data) =>{
 
 
@@ -41,14 +43,6 @@ const updateUI = (data) =>{
 
 }
 
-const update = async (city) => {
-    const cityDet = await getCity(city);
-    const weather = await getWeth(cityDet.Key);
-
-    return { cityDet, weather };
-
-}
-
 
 cityForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -56,7 +50,7 @@ cityForm.addEventListener('submit', (e) => {
     const city = cityForm.city.value.trim();
     cityForm.reset();
 
-    update(city)
+    forcast.update(city)
     .then(data => updateUI(data))
     // .then(data => console.log(data))
     .catch(err => console.log(err));
@@ -65,7 +59,7 @@ cityForm.addEventListener('submit', (e) => {
 })
 
 if (localStorage.getItem('Last-city')){
-    update(localStorage.getItem('Last-city'))
+    forcast.update(localStorage.getItem('Last-city'))
     .then(data => updateUI(data))
     // .then(data => console.log(data))
     .catch(err => console.log(err));
